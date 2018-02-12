@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="789f11377164fcf3a8f1d0408ee7dfed637cd9ae" datatype="html">
+        <source>Hello <x id="INTERPOLATION"/></source>
+        <target>Hello <x id="INTERPOLATION"/></target>
+      </trans-unit>
+      <trans-unit id="0ddc6f819d9d8fe845f3aa0160b24a453bb941d2" datatype="html">
+        <source>WINGS Project Logo</source>
+        <target>WINGS Project Logo</target>
+      </trans-unit>
+      <trans-unit id="11992a5915885c0af7b827411ff4b46b153c86dd" datatype="html">
+        <source>This is i18n sample</source>
+        <target>This is i18n sample</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

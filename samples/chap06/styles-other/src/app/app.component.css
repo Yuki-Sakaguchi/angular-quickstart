@@ -1,0 +1,16 @@
+/*
+（3）@importディレクティブによるインポート
+ */
+/*@import 'app.component.ext.css';*/
+
+
+h2 {
+  font-size: 150%;
+  text-decoration: underline;
+  color: #369;
+}
+
+p {
+  background-color: Yellow;
+  color: red;
+}

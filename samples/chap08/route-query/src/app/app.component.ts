@@ -1,0 +1,24 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'my-app',
+  template: `
+    <ul>
+      <li><a routerLink="/" routerLinkActive="current"
+        [routerLinkActiveOptions]="{exact:true}">メインページ</a></li>
+      <li><a routerLink="param" routerLinkActive="current"
+        [queryParams]="{ category: 'Angular', keyword: 'Routing' }"
+        fragment="hoge">クエリ情報／フラグメント</a></li>
+        
+      <li><a routerLink="exam"
+        queryParamsHandling="preserve" preserveFragment
+        routerLinkActive="current">クエリ情報／フラグメント（維持）</a></li>
+      <li><a routerLink="/exam" routerLinkActive="current">Exampleページ</a></li>
+      <li><a routerLink="/dummy" routerLinkActive="current">不正なページ</a></li>
+    </ul>
+    <hr />
+    <router-outlet></router-outlet>
+  `,
+  styles:['.current { background-color:#ff0; }'],
+})
+export class AppComponent  { }

@@ -1,0 +1,15 @@
+div {
+  padding: 10px;
+  border: medium solid #000;
+}
+
+h2 {
+  font-size: 150%;
+  text-decoration: underline;
+  color: #f00;
+}
+
+p {
+  background-color: #ff6;
+  color: #800;
+}

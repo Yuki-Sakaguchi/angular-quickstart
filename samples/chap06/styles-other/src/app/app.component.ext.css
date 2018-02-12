@@ -1,0 +1,17 @@
+h2 {
+  font-size: 150%;
+  text-decoration: underline;
+  color: #369;
+}
+
+p {
+  background-color: Yellow;
+  color: red;
+}
+
+/*枠線を付ける*/
+/*
+p {
+  border: medium solid #000;
+}
+*/

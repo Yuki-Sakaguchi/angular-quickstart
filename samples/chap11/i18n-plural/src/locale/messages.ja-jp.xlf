@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="19da2c592528bc677f3fbcebe8efefb2b8098956"
+        datatype="html">
+        <source/>
+        <target>{hamsters, plural,
+          =0     { いないハム }
+          =1     { いっぴきハム }
+          other  { ハムいっぱい}
+        }</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

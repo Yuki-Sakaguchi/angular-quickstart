@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>属性とプロパティとは別もの</title>
+</head>
+<body>
+<input id="txt" type="text" value="hoge" />
+<script>
+txt.value = 'foo';
+console.log(txt.value);
+console.log(txt.getAttribute('value'));
+</script>
+</body>
+</html>
