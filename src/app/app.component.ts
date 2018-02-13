@@ -43,13 +43,60 @@ import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-brows
                 <div [hidden]="!ctrlKey">[ctrl]</div>
                 <div [hidden]="!shiftKey">[shift]</div>
               </div>
+              <br>
+              <br>
+              <div>
+                <form>
+                  <label for="zip">郵便番号:</label>
+                  <input id="zip" name="zip" type="text" size="10" (keypress)="mask($event)">
+                </form>
+              </div>
+              <br>
+              <br>
+              <div id="outer" (click)="clickOuter()">outer
+                <div id="inner" (click)="clickInner($event)">inner</div>
+              </div>
+              <br>
+              <br>
+              <div>
+                <input #txt id="txt" name="txt" type="text" (input)="showInput(txt.value)">
+                <ul [innerHTML]="list"></ul>
+              </div>
+              <br>
+              <br>
+              <div>
+                <label>姓:<input #last type="text" (change)="0"></label><br>
+                <label>名:<input #first type="text" (change)="0"></label>
+                <p>こんにちは！ {{ last.value }}{{ first.value }}さん！</p>
+              </div>
+              <br>
+              <br>
+              <div>
+                <input id="enter" name="enter" type="text" (keyup.enter)="showEnter($event)">
+                <ul [innerHTML]="enterMsg"></ul>
+              </div>
+              <br>
+              <br>
+              <div>
+                <form>
+                  <label for="name">名前:</label>
+                  <input id="name" name="name" type="text" [(ngModel)]="myName">
+                  <div>こんにちは、{{ myName }}さん！</div>
+                </form>
+              </div>
+              <br>
+              <br>
             </div>`,
 
   styles: [`
     .line { margin: 10px; border: solid 5px #aaa; }
     .back { background-color: #ccc; }
     .fore { color: #666; }
-  `]
+  `],
+  
+  styleUrls: [
+    'app/app.component.css'
+  ]
 })
 export class AppComponent  {
   // クラス
@@ -106,12 +153,13 @@ export class AppComponent  {
   bg = "#000";
   c = "white";
 
-  // イベント
+  // クリックイベント
   date: string = new Date().toLocaleString();
   show() {
     this.date = new Date().toLocaleString();
   }
 
+  // マウスムーブイベント
   screenX = 0;
   screenY = 0;
   pageX = 0;
@@ -132,7 +180,7 @@ export class AppComponent  {
     this.offsetY = e.offsetY;
   }
 
-  // キー入力
+  // キーダウンイベント
   which = '';
   altKey = false;
   ctrlKey = false;
@@ -144,4 +192,46 @@ export class AppComponent  {
     this.ctrlKey = e.ctrlKey;
     this.shiftKey = e.shiftKey;
   }
+
+  // デフォルトイベントの中止
+  mask(e: any) {
+    let k = e.which;
+    
+    if (!((k >= 48 && k <= 57) || k === 45 || k === 8 || k === 0)) {
+      // 決められたコード以外はイベント本来の動作をキャンセル
+      // 数字、バックスペース、デリート以外はキャンセル
+      e.preventDefault();
+    }
+  }
+
+  // イベントバブリングを中止
+  clickOuter(e: any) {
+    console.log('outerをクリックしました。');
+  }
+  clickInner(e: any) {
+    e.stopPropagation(); // 親要素のイベントを中止
+    console.log('innerをクリックしました。');
+  }
+
+  // 参照変数
+  // タグには#txtを用意し、showInput(txt.value)を渡す
+  list = '';
+  showInput(input: string) {
+    this.list += `<li>${input}</li>`;
+  }
+
+  // エンターイベント
+  // よく使うのでAngularはエンターイベントを用意してくれている
+  enterMsg = '';
+  showEnter(e: any) {
+    this.enterMsg += `<li>${e.target.value}</li>`;
+  }
+
+
+  // ここまで片方向バインディング
+  // ---------------------------------------------------------------
+  // ここから双方向バインディング
+
+ 
+  myName = '山田'
 }
