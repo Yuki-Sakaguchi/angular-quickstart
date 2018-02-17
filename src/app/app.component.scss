@@ -1,0 +1,39 @@
+/**
+ * app
+ */
+
+.wrapper {
+  padding: 20px;
+}
+
+.inner {
+  margin: 20px 0;
+}
+
+article {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid gray;
+
+  header {
+    font-weight: bold;
+    border-bottom: 1px solid black;
+    padding-bottom: 3px;
+    margin-bottom: 3px;
+  }
+}
+
+
+/* ngClass用 */
+
+.back {
+  background-color: turquoise;
+}
+
+.fore {
+  color: teal;
+}
+
+.space {
+  margin: 30px;
+}

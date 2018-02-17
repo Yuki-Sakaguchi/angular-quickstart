@@ -66,6 +66,7 @@ import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-brows
 
                 <br>
 
+                <h4>ループの変数</h4>
                 <table class="table">
                   <tr>
                     <th>値</th>
@@ -87,7 +88,9 @@ import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-brows
 
                 <br>
 
-                <ng-container *ngFor="let article of articles">
+                <h4>差分だけ更新</h4>
+                <input type="button" (click)="upload()" value="更新">
+                <ng-container *ngFor="let article of articles; trackBy: trackFn">
                   <article>
                     <header>{{ article.title }}</header>
                     <div>{{ article.body }}</div>
@@ -95,24 +98,59 @@ import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-brows
                   </article>
                 </ng-container>
 
+                <br>
+
+                <h4>ページング</h4>
+                <table class="table">
+                  <tr>
+                    <th>id</th><th>title</th>
+                  </tr>
+                  <tr *ngFor="let item of list | slice: start: start + len">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.title }}</td>
+                  </tr>
+                </table>
+                <ul class="pagination">
+                  <li *ngFor="let item of list | slice: 0: pagingCount; index as i;">
+                    <a (click)="pager(i)">{{ (i+1) }}</a>
+                  </li>
+                </ul>
+              </div>`
+
+              // ngStyle
+              +
+              `<div class="inner">
+                <h3>ngStyle</h3>
+                <input type="button" (click)="back = !back" value="背景色">
+                <input type="button" (click)="fore = !fore" value="前景色">
+                <input type="button" (click)="space = !space" value="余白">
+                <div [ngStyle]="styles">
+                  <p>
+                    サンプルテキストサンプルテキストサンプルテキスト
+                    サンプルテキストサンプルテキストサンプルテキスト
+                  </p>
+                </div>
+              </div>`
+
+              // ngClass
+              +
+              `<div class="inner">
+                <h3>ngClass</h3>
+                <input type="button" (click)="className.back = !className.back" value="背景色">
+                <input type="button" (click)="className.fore = !className.fore" value="前景色">
+                <input type="button" (click)="className.space = !className.space" value="余白">
+                <div [ngClass]="className">
+                  <p>
+                    サンプルテキストサンプルテキストサンプルテキスト
+                    サンプルテキストサンプルテキストサンプルテキスト
+                  </p>
+                </div>
               </div>
+
+
             </div>`,
   
-  styles: [`
-    .wrapper {
-      padding: 20px;
-    }
-
-    .inner {
-      margin: 20px 0;
-    }
-
-    article {
-      margin: 10px 0;
-      padding: 10px;
-      border: 1px solid gray;
-    }
-  `]
+  styleUrls: ['./app.component.scss']
 })
 
 export class AppComponent  {
@@ -153,19 +191,130 @@ export class AppComponent  {
   // ngForでng-containerを使う
   articles = [
     {
+      id: 1,
       title: 'タイトル１',
       body: '本文１',
       author: '書き手１'
     },
     {
+      id: 2,
       title: 'タイトル２',
       body: '本文２',
       author: '書き手２'
     },
     {
+      id: 3,
       title: 'タイトル３',
       body: '本文３',
       author: '書き手３'
     },
-  ]
+  ];
+
+  // 記事を更新
+  upload() {
+    this.articles = [
+      {
+        id: 1,
+        title: 'タイトル１',
+        body: '本文１',
+        author: '書き手１'
+      },
+      {
+        id: 2,
+        title: 'タイトル２',
+        body: '本文２',
+        author: '書き手２書き手２'
+      },
+      {
+        id: 3,
+        title: 'タイトル３',
+        body: '本文３本文３本文３',
+        author: '書き手３'
+      },
+      {
+        id: 4,
+        title: 'タイトル４',
+        body: '本文４',
+        author: '書き手４'
+      },
+    ];
+  }
+
+  // 記事を更新するたびに同じ内容を書き換えてしまって無駄なので、
+  // トラッキング式を使う（差分だけ更新する）
+  // （ngForに夜オブジェクト追跡のためのキーを決める）
+  trackFn(index: any, article: any) {
+    return article.id; //-> キーとしてidをキーとして扱う
+  }
+
+  // ページング
+  list = [
+    {
+      id: 1,
+      title: "タイトル１"
+    },
+    {
+      id: 2,
+      title: "タイトル２"
+    },
+    {
+      id: 3,
+      title: "タイトル３"
+    },
+    {
+      id: 4,
+      title: "タイトル４"
+    },
+    {
+      id: 5,
+      title: "タイトル５"
+    },
+    {
+      id: 6,
+      title: "タイトル６"
+    },
+    {
+      id: 7,
+      title: "タイトル７"
+    },
+    {
+      id: 8,
+      title: "タイトル８"
+    },
+    {
+      id: 9,
+      title: "タイトル９"
+    },
+    {
+      id: 10,
+      title: "タイトル１０"
+    },
+  ];
+
+  // ページング
+  start = 0; // 初期設定
+  len = 3; // １ページの件数
+  pagingCount = Math.ceil(this.list.length / this.len); // ページングの最大件数
+  pager(page: number) {
+    this.start = this.len * page;
+  }
+
+  //ngStyle
+  back = false;
+  fore = false;
+  space = false;
+  get styles() {
+    return {
+      'background-color': this.back ? 'gray' : '',
+      'color': this.fore ? 'white' : '',
+      'padding.px': this.space ? 15 : 5,
+    }
+  }
+
+  // ngClass
+  className = {
+    back: false,
+    fore: false,
+    space: false
+  }
 }
