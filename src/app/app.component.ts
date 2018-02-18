@@ -145,8 +145,58 @@ import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-brows
                     サンプルテキストサンプルテキストサンプルテキスト
                   </p>
                 </div>
-              </div>
+              </div>`
 
+              // ngPlural
+              +
+              `<div class="inner">
+                <h3>ngPlural</h3>
+                <div [ngPlural]="favs.length">
+                  <ng-template ngPluralCase="0">
+                    [いいね！]されていません。
+                  </ng-template>
+                  <ng-template ngPluralCase="1">
+                      一人だけ[いいね！]といってくれています。
+                  </ng-template>
+                  <ng-template ngPluralCase="other">
+                    {{ favs.length }}人が[いいね！]といっています。
+                  </ng-template>
+                </div>
+              </div>`
+
+              // ngTemplateOutlet
+              +
+              `<div class="inner">
+                <h3>ngTemplateOutlet</h3>
+
+                <!-- 事前にテンプレート作成 -->
+                <ng-template
+                  #myTemp
+                  let-isbn="isbn"
+                  let-title="title"
+                  let-price="price"
+                  let-publisher="publisher"
+                >
+                  <div>
+                    <ul>
+                      <li>{{ title }}</li>
+                      <li>{{ publisher }}</li>
+                      <li>{{ price }}</li>
+                    </ul>
+                  </div>
+                </ng-template>
+
+                <!-- 選択ボックス -->
+                <select name="temp" [(ngModel)]="temp">
+                  <option *ngFor="let b of tmpBooks; let i = index" [value]="i">
+                    {{ b.title }}
+                  </option>
+                </select>
+
+                <!-- テンプレートが入る場所 -->
+                <ng-container *ngTemplateOutlet="myTemp; context: tmpBooks[temp]">
+                </ng-container>
+              </div>
 
             </div>`,
   
@@ -317,4 +367,35 @@ export class AppComponent  {
     fore: false,
     space: false
   }
+
+  // ngPlural
+  favs: string[] = [
+    '山田', '佐藤', '伊藤',
+  ];
+
+  // ngTemplateOutlet
+  // デフォルトの選択値
+  temp = 0;
+  
+  // 書籍情報
+  tmpBooks = [
+    {
+      isbn: 1,
+      title: '本１',
+      price: 2980,
+      publisher: '本屋さん１'
+    },
+    {
+      isbn: 2,
+      title: '本２',
+      price: 1500,
+      publisher: '本屋さん２'
+    },
+    {
+      isbn: 3,
+      title: '本３',
+      price: 980,
+      publisher: '本屋さん３'
+    }
+  ]
 }
