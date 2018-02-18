@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
+
+import { EventComponent } from './event.component';
+import { BookComponent } from './book.component';
 
 @Component({
   selector: 'my-app',
@@ -196,14 +199,20 @@ import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-brows
                 <!-- テンプレートが入る場所 -->
                 <ng-container *ngTemplateOutlet="myTemp; context: tmpBooks[temp]">
                 </ng-container>
-              </div>
+              </div>`
 
+              // ngTemplateOutlet
+              +
+              `<div class="inner">
+                <h3>ngComponentOutlet</h3>
+                <ng-container *ngComponentOutlet="banner"></ng-container>
+              </div>
             </div>`,
   
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent  {
+export class AppComponent implements OnInit, OnDestroy {
   // ngIf
   show = false;
 
@@ -397,5 +406,22 @@ export class AppComponent  {
       price: 980,
       publisher: '本屋さん３'
     }
-  ]
+  ];
+
+  // ngComponentOutlet
+  interval: any;
+  comps = [ EventComponent, BookComponent ];
+  current = 0;
+  banner: any = EventComponent;
+
+  ngOnInit() {
+    this.interval = setInterval(() => {
+      this.current = (this.current + 1) % this.comps.length;
+      this.banner = this.comps[this.current];
+    }, 3000);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.interval);
+  }
 }
