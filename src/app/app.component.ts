@@ -7,8 +7,9 @@ import { BookComponent } from './book.component';
 @Component({
   selector: 'my-app',
 
-  template: `<div class="wrapper">`
-
+  template: `<div class="wrapper">
+              <h2>ディレクティブ</h2>`
+              
               // ngIf
               +
               `<div class="inner">
@@ -206,6 +207,41 @@ import { BookComponent } from './book.component';
               `<div class="inner">
                 <h3>ngComponentOutlet</h3>
                 <ng-container *ngComponentOutlet="banner"></ng-container>
+              </div>`
+
+              // form
+              +
+              `<h2 style="margin-top: 100px;">FORM</h2>
+              <div class="inner">
+                <form #myForm="ngForm" (ngSubmit)="form()" novalidate>
+                  <div>
+                    <label for="mail">メールアドレス：</label><br>
+                    <input type="mail" name="mail" type="mail" [(ngModel)]="user.mail" #mail="ngModel" required email>
+                    <span *ngIf="mail.errors?.required">メールアドレスは必須です。</span>
+                    <span *ngIf="mail.errors?.email">メールアドレスを正しい形式で入力してください。</span>
+                  </div>
+                  <div>
+                    <label for="passwd">メールアドレス：</label><br>
+                    <input type="passwd" name="passwd" type="password" [(ngModel)]="user.passwd" #passwd="ngModel" required minlength="6">
+                    <span *ngIf="passwd.errors?.required">パスワードは必須です。</span>
+                    <span *ngIf="passwd.errors?.minlength">パスワードは６文字以上で入力してください。</span>
+                  </div>
+                  <div>
+                    <label for="name">名前（漢字）：</label><br>
+                    <input type="name" name="name" type="text" [(ngModel)]="user.name" #name="ngModel" required minlength="3" maxlength="10">
+                    <span *ngIf="name.errors?.required">名前（漢字）は必須です。</span>
+                    <span *ngIf="name.errors?.minlength">名前（漢字）は３文字以上で入力してください。</span>
+                    <span *ngIf="name.errors?.maxlength">名前（漢字）は１０文字以下で入力してください。</span>
+                  </div>
+                  <div>
+                    <label for="memo">備考：</label><br>
+                    <textarea id="memo" name="memo" rows="5" cols="30" [(ngModel)]="user.memo" maxlength="10" #memo="ngModel"></textarea>
+                    <span *ngIf="memo.errors?.required">備考は１０文字以下で入力してください。</span>
+                  </div>
+                  <div>
+                    <input type="submit" value="送信" [disabled]="myForm.invalid">
+                  </div>
+                </form>
               </div>
             </div>`,
   
@@ -423,5 +459,20 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.interval);
+  }
+
+  // form
+  user = {
+    mail: 'hoge@example.com',
+    passwd: '',
+    name: '',
+    memo: 'メモ'
+  };
+
+  form() {
+    console.log(`メールアドレス： ${this.user.mail}`);
+    console.log(`パスワード： ${this.user.passwd}`);
+    console.log(`名前（漢字）： ${this.user.name}`);
+    console.log(`備考： ${this.user.memo}`);
   }
 }
